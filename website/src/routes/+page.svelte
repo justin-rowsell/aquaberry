@@ -20,8 +20,8 @@
     let climateOracleSubtext = "Your AI Partner in Climate Innovation. Get in touch now to for access to the alpha when it is released.";
     let climateOracleBulletPoints = [
         "Climate Oracle's AI has access to a vast database of research papers analyzing our climate challenges, ensuring you have the latest and most accurate information at your fingertips",
-        "Climate Oracle's AI synthesizes complex data into actionable insights, empowering you to make well-informed decisions quickly and confidently, driving your climate initiatives forward.",
-        "Our AI makes complex climate data and research easily accessible to everyone, breaking down barriers to understanding and enabling informed decision-making."
+        "Make well-informed decisions quickly and confidently.",
+        "Our AI makes complex climate data and research easily accessible to everyone."
     ];
 
    

@@ -9,12 +9,12 @@
 	style="background: linear-gradient(to right, {bgColor}, white);"
 >
 	{#if reverse}
-		<slot name="text" class="md:ml-1/4 flex-1 items-center justify-center text-left md:text-left"
+		<slot name="text" class="md:ml-1/4 flex-1 items-center justify-center text-left md:text-left text-xs md:text-base"
 		></slot>
 		<slot name="image" class="mt-4 flex flex-1 items-center justify-center md:mt-0"></slot>
 	{:else}
 		<slot name="image" class="mt-4 flex flex-1 items-center justify-center md:mt-0"></slot>
-		<slot name="text" class="md:ml-1/4 flex-1 items-center justify-center text-left md:text-left"
+		<slot name="text" class="md:ml-1/4 flex-1 items-center justify-center text-left md:text-left text-xs md:text-base"
 		></slot>
 	{/if}
 </div>
