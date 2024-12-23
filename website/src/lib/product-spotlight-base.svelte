@@ -6,7 +6,7 @@
 
 <div
 	class="flex flex-col items-center justify-center px-[10%] py-8 md:flex-row"
-	style="background: linear-gradient(to right, {bgColor}, white);"
+	style="background: linear-gradient(to right, {bgColor}, black);"
 >
 	{#if reverse}
 		<slot name="text" class="md:ml-1/4 flex-1 items-center justify-center text-left md:text-left text-xs md:text-base"
