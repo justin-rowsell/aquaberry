@@ -7,8 +7,9 @@
   let imageUrl = '';
   let bgColor = '#ffffff';
   let buttonUrl = '';
+  let headingLevel = 'h2';
 
-  export { title, subtext, bulletPoints, imageUrl, bgColor, buttonUrl };
+  export { title, subtext, bulletPoints, imageUrl, bgColor, buttonUrl, headingLevel };
 
   function scrollToContact(selector: string) {
     const contactSection = document.querySelector(selector);
@@ -25,7 +26,7 @@
     <img src={imageUrl} alt={title} class="max-w-full w-10/12 h-3/4 rounded-lg shadow-lg" />
   </div>
   <div slot="text" class="flex-1 md:ml-1/4 justify-center items-center text-left md:text-left">
-    <h2 class="text-4xl font-headings text-accent mb-4">{title}</h2>
+    <svelte:element this={headingLevel} class="text-4xl font-headings text-accent mb-4">{title}</svelte:element>
     <!--summary text before the list-->
     <p class="text-lg font-body text-white">{subtext}</p>
     <ul class="list-disc list-inside text-white">

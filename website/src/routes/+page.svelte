@@ -1,9 +1,7 @@
 <script lang="ts">
 	import BentoGrid from '$lib/bento-grid.svelte';
-	import ContactInfo from '$lib/contact-info.svelte';
 	import GlobeHero from '$lib/globe-hero.svelte';
-	import ProductSpotlight from '$lib/product-spotlight.svelte';
-	import ReverseProductSpotlight from '$lib/reverse-product-spotlight.svelte';
+	import { onMount } from 'svelte';
 
     let title = 'Aquaberry';
     let subtext = "Building software for a better future";
@@ -24,8 +22,51 @@
         "Our AI makes complex climate data and research easily accessible to everyone."
     ];
 
-   
+    // Lazy load components
+    let productSpotlight: any;
+    let reverseProductSpotlight: any;
+    let contactInfo: any;
+
+    onMount(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    if (entry.target.id === 'wildsense-section' && !reverseProductSpotlight) {
+                        import('$lib/reverse-product-spotlight.svelte').then(module => {
+                            reverseProductSpotlight = module.default;
+                        });
+                    }
+                    if (entry.target.id === 'climate-oracle-section' && !productSpotlight) {
+                        import('$lib/product-spotlight.svelte').then(module => {
+                            productSpotlight = module.default;
+                        });
+                    }
+                    if (entry.target.id === 'contact-section' && !contactInfo) {
+                        import('$lib/contact-info.svelte').then(module => {
+                            contactInfo = module.default;
+                        });
+                    }
+                }
+            });
+        }, { rootMargin: '50px' });
+
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+
+        return () => observer.disconnect();
+    });
 </script>
+
+<svelte:head>
+    <title>Aquaberry - Building Software for a Better Future</title>
+    <meta name="description" content="Aquaberry develops innovative AI solutions for environmental conservation and climate research. Our products include WildSense for wildlife monitoring and Climate Oracle for climate innovation." />
+    <meta property="og:title" content="Aquaberry - Building Software for a Better Future" />
+    <meta property="og:description" content="Aquaberry develops innovative AI solutions for environmental conservation and climate research. Our products include WildSense for wildlife monitoring and Climate Oracle for climate innovation." />
+    <meta property="og:type" content="website" />
+    <link rel="preload" href="/fauna.png" as="image" />
+    <link rel="preload" href="/THE_Climate_Oracle.png" as="image" />
+</svelte:head>
 
 <div class="relative h-[66vh]">
 	<GlobeHero title={title} {subtext} />
@@ -35,19 +76,48 @@
     <BentoGrid />
 </div>
 
-<div class="relative h-screen flex justify-center bg-base-100">
-    <ReverseProductSpotlight title="WildSense" subtext={wildSenseSubtext} bulletPoints={wildSenseBulletPoints} imageUrl="/fauna.png" bgColor="#01570c" buttonUrl={learnMoreButtonSection} />
-</div>
-<div class="relative h-screen flex justify-center bg-base-100">
-    <ProductSpotlight title={"Climate Oracle"} subtext={climateOracleSubtext} 
-        bulletPoints={climateOracleBulletPoints} imageUrl="/THE_Climate_Oracle.png" 
-        bgColor="#7AAAAA" buttonUrl={learnMoreButtonSection}
-        titleColor="#99E0B4" textColor="#ffffff" showCountdown={true} countdownDate={new Date('2025-02-01T09:00:00')}>
-    </ProductSpotlight>
-</div>
-<!--Contact the founder section with id contact so other buttons can move here-->
-<div id="contact" class="">
-   <ContactInfo />
-</div>
+<section id="wildsense-section" class="relative h-screen flex justify-center bg-base-100">
+    {#if reverseProductSpotlight}
+        <svelte:component this={reverseProductSpotlight} 
+            title="WildSense" 
+            {subtext} 
+            bulletPoints={wildSenseBulletPoints} 
+            imageUrl="/fauna.png" 
+            bgColor="#01570c" 
+            buttonUrl={learnMoreButtonSection} 
+            headingLevel="h2" 
+        />
+    {:else}
+        <div class="loading loading-spinner loading-lg"></div>
+    {/if}
+</section>
+
+<section id="climate-oracle-section" class="relative h-screen flex justify-center bg-base-100">
+    {#if productSpotlight}
+        <svelte:component this={productSpotlight} 
+            title="Climate Oracle" 
+            {subtext} 
+            bulletPoints={climateOracleBulletPoints} 
+            imageUrl="/THE_Climate_Oracle.png" 
+            bgColor="#7AAAAA" 
+            buttonUrl={learnMoreButtonSection}
+            titleColor="#99E0B4" 
+            textColor="#ffffff" 
+            showCountdown={true} 
+            countdownDate={new Date('2025-02-01T09:00:00')}
+            headingLevel="h2"
+        />
+    {:else}
+        <div class="loading loading-spinner loading-lg"></div>
+    {/if}
+</section>
+
+<section id="contact-section" class="">
+    {#if contactInfo}
+        <svelte:component this={contactInfo} />
+    {:else}
+        <div class="loading loading-spinner loading-lg"></div>
+    {/if}
+</section>
 
 
